@@ -11,9 +11,13 @@ result = requests.get(link)
 linkResult = result.content
 page = BeautifulSoup(linkResult, 'lxml')
 
-wrapper = page.find('div')
+dayTag = page.find('div', attrs = {'class':'articlePositioner'})
+
+navigationlinks = page.find('div', attrs = {'class':'resultNavControls'})
+
 #attrs{'class' : resultNavControls}
 
-previousDaylink = page.find('a', attrs = {'caria-label':'previous day'})
-
+previousDaylink = navigationlinks.find('a', attrs = {'aria-label':'previous day'}).get("href")
 print(previousDaylink)
+print("\n\nspace \n\n")
+print(dayTag)
