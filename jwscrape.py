@@ -58,7 +58,7 @@ def getDailyText(getDate, dfDailyText):
 
 #fromDate = datetime.strptime(input("Please enter from date in yyyy/mm/dd : "),'%Y/%m/%d')
 #toDate = datetime.strptime(input("Please enter to date in yyyy/mm/dd : "), '%Y/%m/%d')
-fromDate = datetime.strptime("2022/01/01",'%Y/%m/%d')
+fromDate = datetime.strptime("2022/07/20",'%Y/%m/%d')
 toDate = datetime.strptime("2022/12/31",'%Y/%m/%d')
 #outputFile = input("Please Enter output file name : ")
 #toDate =+ timedelta(days=1)
@@ -73,13 +73,13 @@ else:
         dfDailyText = getDailyText(scrapedate, dfDailyText)
         scrapedate += timedelta(days=1)
         if (i % 30):
-            dfDailyText.to_excel("dailytxt.xlsx",index = False)
+            dfDailyText.to_excel("dailytxt2.xlsx",index = False)
         #scrapedate = datetime.date
         #print ("\n next day is " + scrapedate.strftime('%Y/%m/%d'))
         #scrapedate = datetime.strptime(newdate.strftime('%Y/%m/%d'),'%Y/%m/%d')
         i += 1
     
-    dfDailyText.to_excel("dailytxt.xlsx",index = False)
+    dfDailyText.to_excel("dailytxt2.xlsx",index = False)
     print(str(i)+ " records collected.")
     exit(0)
 
