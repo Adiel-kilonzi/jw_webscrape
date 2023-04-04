@@ -58,8 +58,8 @@ def getDailyText(getDate, dfDailyText):
 
 #fromDate = datetime.strptime(input("Please enter from date in yyyy/mm/dd : "),'%Y/%m/%d')
 #toDate = datetime.strptime(input("Please enter to date in yyyy/mm/dd : "), '%Y/%m/%d')
-fromDate = datetime.strptime("2022/07/20",'%Y/%m/%d')
-toDate = datetime.strptime("2022/12/31",'%Y/%m/%d')
+fromDate = datetime.strptime("2023/01/01",'%Y/%m/%d')
+toDate = datetime.strptime("2023/12/31",'%Y/%m/%d')
 #outputFile = input("Please Enter output file name : ")
 #toDate =+ timedelta(days=1)
 if( fromDate > toDate):
