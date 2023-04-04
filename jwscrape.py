@@ -44,7 +44,7 @@ def getDailyText(getDate, dfDailyText):
     row = pd.Series([getDate, scriptureString, wComments], index=dfDailyText.columns)
     dfDailyText = dfDailyText.append(row, ignore_index=True)
     #dfDailyText = pd.concat([dfDailyText, row])
-    print("Processing date " + getDate.strftime('%Y/%m/%d'))
+    print("Finished date " + getDate.strftime('%Y/%m/%d'))
     #print(dfDailyText.head())
     return (dfDailyText)
 
@@ -72,6 +72,8 @@ else:
     while scrapedate <= toDate:
         dfDailyText = getDailyText(scrapedate, dfDailyText)
         scrapedate += timedelta(days=1)
+        if (i % 30):
+            dfDailyText.to_excel("dailytxt.xlsx",index = False)
         #scrapedate = datetime.date
         #print ("\n next day is " + scrapedate.strftime('%Y/%m/%d'))
         #scrapedate = datetime.strptime(newdate.strftime('%Y/%m/%d'),'%Y/%m/%d')
