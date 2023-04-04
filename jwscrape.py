@@ -7,14 +7,11 @@ import requests
 from datetime import datetime, timedelta, date
 
 
-#date_time = datetime
 dfDailyText = pd.DataFrame(columns=['date','scripture','comments'])
 baseLink = "https://wol.jw.org/en/wol/h/r1/lp-e/"
 def getDailyText(getDate, dfDailyText):
     linkDate = '{dt.year}/{dt.month}/{dt.day}'.format(dt = getDate)
     link = baseLink + linkDate
-    #print(link)
-#link = "https://wol.jw.org/en/wol/h/r1/lp-e"
     try:
         result = requests.get(link)
         linkResult = result.content
@@ -58,8 +55,8 @@ def getDailyText(getDate, dfDailyText):
 
 #fromDate = datetime.strptime(input("Please enter from date in yyyy/mm/dd : "),'%Y/%m/%d')
 #toDate = datetime.strptime(input("Please enter to date in yyyy/mm/dd : "), '%Y/%m/%d')
-fromDate = datetime.strptime("2023/01/01",'%Y/%m/%d')
-toDate = datetime.strptime("2023/12/31",'%Y/%m/%d')
+fromDate = datetime.strptime("2023/04/01",'%Y/%m/%d')
+toDate = datetime.strptime("2023/04/04",'%Y/%m/%d')
 #outputFile = input("Please Enter output file name : ")
 #toDate =+ timedelta(days=1)
 if( fromDate > toDate):
@@ -72,14 +69,12 @@ else:
     while scrapedate <= toDate:
         dfDailyText = getDailyText(scrapedate, dfDailyText)
         scrapedate += timedelta(days=1)
+        # write to file after every 30 iterations
         if ((i % 30) == 0):
-            dfDailyText.to_excel("dailytxt2023.xlsx",index = False)
-        #scrapedate = datetime.date
-        #print ("\n next day is " + scrapedate.strftime('%Y/%m/%d'))
-        #scrapedate = datetime.strptime(newdate.strftime('%Y/%m/%d'),'%Y/%m/%d')
+            dfDailyText.to_excel("dailytxt.xlsx",index = False)
         i += 1
     
-    dfDailyText.to_excel("dailytxt2023.xlsx",index = False)
+    dfDailyText.to_excel("dailytxt.xlsx",index = False)
     print(str(i)+ " records collected.")
     exit(0)
 
