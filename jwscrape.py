@@ -1,15 +1,19 @@
+
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
 import requests
-import datetime
+#import datetime
+from datetime import datetime, timedelta, date
 
 
-
+#date_time = datetime
+dfDailyText = pd.DataFrame(columns=['date','scripture','comments'])
 baseLink = "https://wol.jw.org/en/wol/h/r1/lp-e/"
-def getDailyText(getDate):
-    link = baseLink + getDate
-#print(link)
+def getDailyText(getDate, dfDailyText):
+    linkDate = '{dt.year}/{dt.month}/{dt.day}'.format(dt = getDate)
+    link = baseLink + linkDate
+    print(link)
 #link = "https://wol.jw.org/en/wol/h/r1/lp-e"
     try:
         result = requests.get(link)
@@ -20,10 +24,9 @@ def getDailyText(getDate):
     except URLError as ue:
         print("The Server Could Not be Found")
     else:
-        print("Parsing for date " + getDate)
+        print("Parsing for date " + getDate.strftime('%Y/%m/%d'))
 
     dailyText = page.find('div', attrs = {'class':'articlePositioner'})
-
     #navigationlinks = page.find('div', attrs = {'class':'resultNavControls'})
 
     #attrs{'class' : resultNavControls}
@@ -34,29 +37,51 @@ def getDailyText(getDate):
     #previousDaylink = navigationlinks.find('a', attrs = {'aria-label':'previous day'}).get("href")
     scriptureem = scripture[1].find_all('em')
 
-
+    scriptureString = ""
+    #scriptureString
     for comments in scriptureem:
+        scriptureString += str(comments.get_text())
         print(comments.get_text())
-        print("\n" + "end of comment" + "\n")
+    print("\n scripture is " + scriptureString)    
+    wComments = watchtowerComments[1].get_text()
+    row = pd.Series([getDate, scriptureString, wComments], index=dfDailyText.columns)
+    #dfDailyText = dfDailyText.append(row, ignore_index=True)
+    dfDailyText = pd.concat([dfDailyText, row])
+    print("Processing date " + getDate.strftime('%Y/%m/%d'))
+    print(dfDailyText.head())
+    return (dfDailyText)
+
 
     #print(scripture[1].em.get_text())
     #print(scripture[1].em.[1].get_text())
-    print ("\n")
+    #print ("\n")
     #print(watchtowerComments[1].get_text())
 #'{dt.year}/{dt.month}/{dt.day}'.format(dt = mydate)
 
-def __init__(self,):
-    fromDate = datetime.strptime(input("Please enter from date in yyyy/dd/mm : "),'%Y/%m/%d')
-    toDate = datetime.strptime(input("Please enter to date in yyyy/dd/mm : "), '%Y/%m/%d')
-    outputFile = input("Please Enter output file name : ")
 
-    if( fromDate > toDate):
-        print ("ERROR: From Date cannot be greater than to date")
-        exit(1)
-    else:
-        scrapedate = fromDate
-        dfDailyText = pd.Dataframe()
-        while scrapedate <= toDate:
-            getDailyText(scrapedate)
+#fromDate = datetime.strptime(input("Please enter from date in yyyy/mm/dd : "),'%Y/%m/%d')
+#toDate = datetime.strptime(input("Please enter to date in yyyy/mm/dd : "), '%Y/%m/%d')
+fromDate = datetime.strptime("2023/04/03",'%Y/%m/%d')
+toDate = datetime.strptime("2023/04/04",'%Y/%m/%d')
+#outputFile = input("Please Enter output file name : ")
+#toDate =+ timedelta(days=1)
+if( fromDate > toDate):
+    print ("ERROR: From Date cannot be greater than to date")
+    exit(1)
+else:
+    scrapedate = fromDate
+    
+    i = 0
+    while scrapedate <= toDate:
+        dfDailyText = getDailyText(scrapedate, dfDailyText)
+        scrapedate += timedelta(days=1)
+        #scrapedate = datetime.date
+        print ("\n next day is " + scrapedate.strftime('%Y/%m/%d'))
+        #scrapedate = datetime.strptime(newdate.strftime('%Y/%m/%d'),'%Y/%m/%d')
+        i += 1
+    
+    dfDailyText.to_excel('dailytxt.xlsx')
+    print(str(i)+ " records collected.")
+    exit(0)
 
 
