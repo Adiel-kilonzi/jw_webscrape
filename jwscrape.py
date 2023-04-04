@@ -72,14 +72,14 @@ else:
     while scrapedate <= toDate:
         dfDailyText = getDailyText(scrapedate, dfDailyText)
         scrapedate += timedelta(days=1)
-        if (i % 30):
-            dfDailyText.to_excel("dailytxt2.xlsx",index = False)
+        if ((i % 30) == 0):
+            dfDailyText.to_excel("dailytxt2023.xlsx",index = False)
         #scrapedate = datetime.date
         #print ("\n next day is " + scrapedate.strftime('%Y/%m/%d'))
         #scrapedate = datetime.strptime(newdate.strftime('%Y/%m/%d'),'%Y/%m/%d')
         i += 1
     
-    dfDailyText.to_excel("dailytxt2.xlsx",index = False)
+    dfDailyText.to_excel("dailytxt2023.xlsx",index = False)
     print(str(i)+ " records collected.")
     exit(0)
 
