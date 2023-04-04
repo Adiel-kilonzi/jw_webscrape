@@ -27,9 +27,6 @@ def getDailyText(getDate, dfDailyText):
         print("Parsing for date " + getDate.strftime('%Y/%m/%d'))
 
     dailyText = page.find('div', attrs = {'class':'articlePositioner'})
-    #navigationlinks = page.find('div', attrs = {'class':'resultNavControls'})
-
-    #attrs{'class' : resultNavControls}
 
     scripture = dailyText.find_all('p', attrs = {'class':'themeScrp'})
     watchtowerComments = dailyText.find_all('p', attrs = {'class':'sb'})
@@ -41,7 +38,7 @@ def getDailyText(getDate, dfDailyText):
     #scriptureString
     for comments in scriptureem:
         scriptureString += str(comments.get_text())
-        print(comments.get_text())
+        #print(comments.get_text())
     #print("\n scripture is " + scriptureString)    
     wComments = watchtowerComments[1].get_text()
     row = pd.Series([getDate, scriptureString, wComments], index=dfDailyText.columns)
@@ -76,7 +73,7 @@ else:
         dfDailyText = getDailyText(scrapedate, dfDailyText)
         scrapedate += timedelta(days=1)
         #scrapedate = datetime.date
-        print ("\n next day is " + scrapedate.strftime('%Y/%m/%d'))
+        #print ("\n next day is " + scrapedate.strftime('%Y/%m/%d'))
         #scrapedate = datetime.strptime(newdate.strftime('%Y/%m/%d'),'%Y/%m/%d')
         i += 1
     
