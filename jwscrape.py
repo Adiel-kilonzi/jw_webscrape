@@ -13,7 +13,7 @@ baseLink = "https://wol.jw.org/en/wol/h/r1/lp-e/"
 def getDailyText(getDate, dfDailyText):
     linkDate = '{dt.year}/{dt.month}/{dt.day}'.format(dt = getDate)
     link = baseLink + linkDate
-    print(link)
+    #print(link)
 #link = "https://wol.jw.org/en/wol/h/r1/lp-e"
     try:
         result = requests.get(link)
@@ -42,13 +42,13 @@ def getDailyText(getDate, dfDailyText):
     for comments in scriptureem:
         scriptureString += str(comments.get_text())
         print(comments.get_text())
-    print("\n scripture is " + scriptureString)    
+    #print("\n scripture is " + scriptureString)    
     wComments = watchtowerComments[1].get_text()
     row = pd.Series([getDate, scriptureString, wComments], index=dfDailyText.columns)
-    #dfDailyText = dfDailyText.append(row, ignore_index=True)
-    dfDailyText = pd.concat([dfDailyText, row])
+    dfDailyText = dfDailyText.append(row, ignore_index=True)
+    #dfDailyText = pd.concat([dfDailyText, row])
     print("Processing date " + getDate.strftime('%Y/%m/%d'))
-    print(dfDailyText.head())
+    #print(dfDailyText.head())
     return (dfDailyText)
 
 
@@ -61,8 +61,8 @@ def getDailyText(getDate, dfDailyText):
 
 #fromDate = datetime.strptime(input("Please enter from date in yyyy/mm/dd : "),'%Y/%m/%d')
 #toDate = datetime.strptime(input("Please enter to date in yyyy/mm/dd : "), '%Y/%m/%d')
-fromDate = datetime.strptime("2023/04/03",'%Y/%m/%d')
-toDate = datetime.strptime("2023/04/04",'%Y/%m/%d')
+fromDate = datetime.strptime("2022/01/01",'%Y/%m/%d')
+toDate = datetime.strptime("2022/12/31",'%Y/%m/%d')
 #outputFile = input("Please Enter output file name : ")
 #toDate =+ timedelta(days=1)
 if( fromDate > toDate):
@@ -80,7 +80,7 @@ else:
         #scrapedate = datetime.strptime(newdate.strftime('%Y/%m/%d'),'%Y/%m/%d')
         i += 1
     
-    dfDailyText.to_excel('dailytxt.xlsx')
+    dfDailyText.to_excel("dailytxt.xlsx",index = False)
     print(str(i)+ " records collected.")
     exit(0)
 
